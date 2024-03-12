@@ -1,4 +1,5 @@
 <template>
+  <meta name="viewport" content="width=device-width, initial-scale=2">
     <div class="container mt-5">
       <div class="row justify-content-center">
       <div
@@ -90,15 +91,19 @@ export default {
         head: {
           currentIndex: 0,
           designs: [
-            { name: 'Kopf 1', image: 'hair1.png' },
-            { name: 'Kopf 2', image: 'hair2.png' },
+            { name: 'Hair 1', image: 'hair1.png' },
+            { name: 'Hair 2', image: 'hair2.png' },
+            { name: 'Hair 3', image: 'hair3.png' },
+            { name: 'Hair 4', image: 'hair4.png' },
           ]
         },
         hair: {
           currentIndex: 0,
           designs: [
-            { name: 'Haar 1', image: 'head1.png' },
-            { name: 'Haar 2', image: 'head2.png' },
+            { name: 'Kopf 1', image: 'head1.png' },
+            { name: 'Kopf 2', image: 'head2.png' },
+            { name: 'Kopf 3', image: 'head3.png' },
+            { name: 'Kopf 4', image: 'head4.png' },
           ]
         },
         body: {
@@ -106,13 +111,21 @@ export default {
           designs: [
             { name: 'Body 1', image: 'body1.png' },
             { name: 'Body 2', image: 'body2.png' },
+            { name: 'Body 3', image: 'body3.png' },
+            { name: 'Body 4', image: 'body4.png' },
+            { name: 'Body 5', image: 'body5.png' },
+            { name: 'Body 6', image: 'body6.png' },
+            { name: 'Body 7', image: 'body7.png' },
           ]
         },
         feet: {
           currentIndex: 0,
           designs: [
-            { name: 'Fuß 1', image: 'feet1.png' },
-            { name: 'Fuß 2', image: 'feet2.png' },
+            { name: 'Feet 1', image: 'feet1.png' },
+            { name: 'Feet 2', image: 'feet2.png' },
+            { name: 'Feet 3', image: 'feet3.png' },
+            { name: 'Feet 4', image: 'feet4.png' },
+            { name: 'Feet 5', image: 'feet5.png' },
           ]
         }
       }
@@ -137,33 +150,28 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
 }
 
 .duplicated-images {
   display: flex;
   flex-direction: column;
- }
+  align-items: center; /* This will center the children horizontally */
+}
 
-.duplicated-images img {
-  margin-top: 0px; 
-  width: auto; /* Breite des Bildes */
-  height: auto; 
+.duplicated-images .images {
+  display: flex; /* Using flexbox for centering */
+  justify-content: center; /* This will center the images horizontally */
+  align-items: center; /* This will center the images vertically */
+  width: 100%; /* Ensures the container takes full width */
+  overflow: hidden; /* Hides the overflowing part of the images */
 }
 
 .duplicated-images img {
-  display: block; 
-  margin: 0px;
-  padding: 0px;
-  width: auto;
-  height: auto;
+  max-width: 200%; /* Limits the image width to not exceed 200% of its container */
+  height: auto; /* Keeps the aspect ratio of the images */
 }
 
-.images {
-  align-self: center;
-  margin: 0px; /* Stellt sicher, dass auch die Container keinen Außenabstand haben */
-  padding: 0px; /* Entfernt den Innenabstand vom Container */
-}
 
 </style>
