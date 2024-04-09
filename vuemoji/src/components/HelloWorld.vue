@@ -1,6 +1,6 @@
 <template>
   <div class="outer-box">
-    <img src="@/assets/logo.png" style="width: 150px" class="logo">
+    <img src="@/assets/logo.png" style="width: 125px;border-radius: 5px;" class="logo">
 
     <div class="inner-box">
       <div class="container">
