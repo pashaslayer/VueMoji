@@ -29,6 +29,7 @@
       <canvas ref="canvas" style="display: none;"></canvas>
     </div>
   </div>
+  <p class="creator-signature">Cech - Khakhlou - Gendu ©</p>
 </template>
 
 <script>
@@ -281,4 +282,10 @@ export default {
   right: -20px;
   padding: 10px;
 }
+.creator-signature {
+    text-align: center; /* Zentriert den Text */
+    color: #007bff; /* Blaue Textfarbe, die der Border-Farbe der Box entspricht */
+    margin-top: 20px; /* Fügt einen oberen Abstand hinzu */
+    font-size: 14px; /* Setzt die Schriftgröße */
+  }
 </style>
