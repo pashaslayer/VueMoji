@@ -1,41 +1,39 @@
 <template>
-  <body>
-  <meta name="viewport" content="width=device-width, initial-scale=2">
-  <link rel="icon" href="@/assets/logo.png">
+  <div class="outer-box">
+    <img src="@/assets/logo.png" style="width: 150px" class="logo">
 
-
-  <img src="@/assets/logo.png" style="width: 150px">
-
-  <div class="container">
-    <div v-for="(designGroup, part) in designGroups" :key="part">
-      <h3>Wähle {{ part }}-Design:</h3>
-      <div class="design-selector">
-        <button @click="changeDesign(part, -1)">←</button>
-        <img :src="require('@/assets/' + designGroup.designs[designGroup.currentIndex].image)" />
-        <button @click="changeDesign(part, 1)">→</button>
+    <div class="inner-box">
+      <div class="container">
+        <div v-for="(designGroup, part) in designGroups" :key="part" class="design-group">
+          <h3>{{ translatePart(part) }}</h3>
+          <div class="design-selector">
+            <button @click="changeDesign(part, -1)" class="arrow-button">←</button>
+            <img :src="require('@/assets/' + designGroup.designs[designGroup.currentIndex].image)" alt="Design" class="design-image" />
+            <button @click="changeDesign(part, 1)" class="arrow-button">→</button>
+          </div>
+          <p>{{ designGroup.designs[designGroup.currentIndex].image }}</p>
+        </div>
       </div>
-      <p>{{ designGroup.designs[designGroup.currentIndex].image }}</p>
-    </div>
-  </div>
 
-  <div class="duplicated-images">
-    <div class="images" v-for="(designGroup, part) in designGroups" :key="'duplicated-' + part">
-      <img :src="require('@/assets/' + designGroup.designs[designGroup.currentIndex].image)" />
+      <div class="duplicated-images">
+        <div class="images" v-for="(designGroup, part) in designGroups" :key="'duplicated-' + part">
+          <img :src="require('@/assets/' + designGroup.designs[designGroup.currentIndex].image)" alt="Duplicated Design" class="duplicated-design" />
+        </div>
+      </div>
+
+      <button @click="downloadImage" class="download-button">Bild herunterladen</button>
+      <canvas ref="canvas" style="display: none;"></canvas>
     </div>
   </div>
-  <button @click="downloadImage">Bild herunterladen</button>
-  <canvas ref="canvas" style="display: none;"></canvas>
-</body>
 </template>
-
 
 <script>
 export default {
-  name: 'vue-moji',
+  name: 'HelloWorld',
   data() {
     return {
       designGroups: {
-        head: {
+        hair: {
           currentIndex: 0,
           designs: [
             { name: 'Hair 1', image: 'hair1.png' },
@@ -48,10 +46,9 @@ export default {
             { name: 'Hair 8', image: 'hair8.png' },
             { name: 'Hair 9', image: 'hair9.png' },
             { name: 'Hair 10', image: 'hair10.png' },
-
           ]
         },
-        hair: {
+        head: {
           currentIndex: 0,
           designs: [
             { name: 'Kopf 1', image: 'head1.png' },
@@ -105,43 +102,42 @@ export default {
       designGroup.currentIndex += direction;
 
       if (designGroup.currentIndex >= designGroup.designs.length) {
-        designGroup.currentIndex = 0; 
+        designGroup.currentIndex = 0;
       } else if (designGroup.currentIndex < 0) {
-        designGroup.currentIndex = designGroup.designs.length - 1; 
+        designGroup.currentIndex = designGroup.designs.length - 1;
       }
     },
 
     drawImageOnCanvas() {
-  const canvas = this.$refs.canvas;
-  const ctx = canvas.getContext('2d');
-  canvas.width = 300; 
-  canvas.height = 500; 
+      const canvas = this.$refs.canvas;
+      const ctx = canvas.getContext('2d');
+      canvas.width = 300;
+      canvas.height = 500;
 
-  const imagesToDraw = Object.values(this.designGroups).map(group => {
-    return require('@/assets/' + group.designs[group.currentIndex].image);
-  });
+      const imagesToDraw = Object.values(this.designGroups).map(group => {
+        return require('@/assets/' + group.designs[group.currentIndex].image);
+      });
 
-  let accumulatedHeight = 0; 
+      let accumulatedHeight = 0;
 
-  const drawImage = (image, index) => {
-    const img = new Image();
-    img.onload = () => {
-      ctx.drawImage(img, (canvas.width - img.width) / 2, accumulatedHeight);
-      accumulatedHeight += img.height; 
+      const drawImage = (image, index) => {
+        const img = new Image();
+        img.onload = () => {
+          ctx.drawImage(img, (canvas.width - img.width) / 2, accumulatedHeight);
+          accumulatedHeight += img.height;
 
-      if (index === imagesToDraw.length - 1) this.downloadCanvas(canvas);
-    };
-    img.src = image;
-  };
+          if (index === imagesToDraw.length - 1) this.downloadCanvas(canvas);
+        };
+        img.src = image;
+      };
 
-  imagesToDraw.forEach(drawImage);
-},
-
+      imagesToDraw.forEach(drawImage);
+    },
 
     downloadCanvas(canvas) {
       const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
       const link = document.createElement('a');
-      link.download = 'mein-maennchen.png';
+      link.download = 'mein-avatar.png';
       link.href = image;
       link.click();
     },
@@ -150,42 +146,110 @@ export default {
       this.drawImageOnCanvas();
     },
 
+    translatePart(part) {
+      const translations = {
+        hair: 'Haare:',
+        head: 'Gesicht:',
+        body: 'Oberkörper:',
+        feet: 'Unterkörper:'
+      };
+      return translations[part] || part;
+    }
   }
-}
+};
 </script>
 
 <style scoped>
-body {
-  color: #01003D;
-  background-color: #01003D;
+.outer-box {
+  border: 5px solid #007bff;
+  padding: 15px;
+  display: inline-block;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.inner-box {
+  background-color: white;
+  padding: 15px;
 }
 
 .container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  align-items: flex-start;
+}
+
+.design-group {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  margin: 0 15px;
+}
+
+.design-group h3 {
+  margin-bottom: 10px;
+  height: 30px;
+}
+
+.design-selector {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.arrow-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.design-image {
+  max-width: 200px;
+  height: auto;
+  margin: 0 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .duplicated-images {
   display: flex;
   flex-direction: column;
-  align-items: center; 
-  justify-content: center; 
-  background-color: whitesmoke;
-  width: 150px;
-  margin: 0 auto; 
-}
-
-.duplicated-images .images {
-  display: flex; 
-  justify-content: center; 
   align-items: center;
-  width: 100%; 
-  overflow: hidden; 
+  justify-content: center;
+  background-color: white;
+  width: 150px;
+  margin: 20px auto;
 }
 
 .duplicated-images img {
-  max-width: 200%; 
-  height: auto; 
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.duplicated-images img {
+  max-width: 100%;
+  height: auto;
+}
+
+.download-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 20px 20px 10px 20px;
+  transition: background-color 0.3s;
+}
+
+.download-button:hover {
+  background-color: #218838;
 }
 </style>

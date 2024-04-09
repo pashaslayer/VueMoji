@@ -1,5 +1,7 @@
 <template>
-  <HelloWorld/>
+  <div id="app">
+    <HelloWorld/>
+  </div>
 </template>
 
 <script>
@@ -14,6 +16,10 @@ export default {
 </script>
 
 <style>
+body {
+  background-color: #add8e6;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
