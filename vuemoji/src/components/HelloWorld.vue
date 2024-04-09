@@ -109,30 +109,35 @@ export default {
     },
 
     drawImageOnCanvas() {
-      const canvas = this.$refs.canvas;
-      const ctx = canvas.getContext('2d');
-      canvas.width = 300;
-      canvas.height = 500;
+  const canvas = this.$refs.canvas;
+  const ctx = canvas.getContext('2d');
+  canvas.width = 60;
+  canvas.height = 80;
 
-      const imagesToDraw = Object.values(this.designGroups).map(group => {
-        return require('@/assets/' + group.designs[group.currentIndex].image);
-      });
+  // Set canvas background to white
+  ctx.fillStyle = '#FFFFFF'; // Set the fill style to white
+  ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill the canvas with white color
 
-      let accumulatedHeight = 0;
+  const imagesToDraw = Object.values(this.designGroups).map(group => {
+    return require('@/assets/' + group.designs[group.currentIndex].image);
+  });
 
-      const drawImage = (image, index) => {
-        const img = new Image();
-        img.onload = () => {
-          ctx.drawImage(img, (canvas.width - img.width) / 2, accumulatedHeight);
-          accumulatedHeight += img.height;
+  let accumulatedHeight = 0;
 
-          if (index === imagesToDraw.length - 1) this.downloadCanvas(canvas);
-        };
-        img.src = image;
-      };
+  const drawImage = (image, index) => {
+    const img = new Image();
+    img.onload = () => {
+      ctx.drawImage(img, (canvas.width - img.width) / 2, accumulatedHeight);
+      accumulatedHeight += img.height;
 
-      imagesToDraw.forEach(drawImage);
-    },
+      if (index === imagesToDraw.length - 1) this.downloadCanvas(canvas);
+    };
+    img.src = image;
+  };
+
+  imagesToDraw.forEach(drawImage);
+},
+
 
     downloadCanvas(canvas) {
       const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
