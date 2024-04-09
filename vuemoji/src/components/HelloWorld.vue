@@ -21,6 +21,10 @@
         </div>
       </div>
 
+      <div class="cube-container">
+        <img src="@/assets/cube.png" alt="Cube" class="cube-image" @click="randomizeDesigns" />
+      </div>
+
       <button @click="downloadImage" class="download-button">Bild herunterladen</button>
       <canvas ref="canvas" style="display: none;"></canvas>
     </div>
@@ -108,36 +112,42 @@ export default {
       }
     },
 
+    randomizeDesigns() {
+      for (let part in this.designGroups) {
+        let designGroup = this.designGroups[part];
+        designGroup.currentIndex = Math.floor(Math.random() * designGroup.designs.length);
+      }
+    },
+
     drawImageOnCanvas() {
-  const canvas = this.$refs.canvas;
-  const ctx = canvas.getContext('2d');
-  canvas.width = 60;
-  canvas.height = 80;
+      const canvas = this.$refs.canvas;
+      const ctx = canvas.getContext('2d');
+      canvas.width = 78;
+      canvas.height = 78;
 
-  // Set canvas background to white
-  ctx.fillStyle = '#FFFFFF'; // Set the fill style to white
-  ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill the canvas with white color
+      // Set canvas background to white
+      ctx.fillStyle = '#FFFFFF'; // Set the fill style to white
+      ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill the canvas with white color
 
-  const imagesToDraw = Object.values(this.designGroups).map(group => {
-    return require('@/assets/' + group.designs[group.currentIndex].image);
-  });
+      const imagesToDraw = Object.values(this.designGroups).map(group => {
+        return require('@/assets/' + group.designs[group.currentIndex].image);
+      });
 
-  let accumulatedHeight = 0;
+      let accumulatedHeight = 0;
 
-  const drawImage = (image, index) => {
-    const img = new Image();
-    img.onload = () => {
-      ctx.drawImage(img, (canvas.width - img.width) / 2, accumulatedHeight);
-      accumulatedHeight += img.height;
+      const drawImage = (image, index) => {
+        const img = new Image();
+        img.onload = () => {
+          ctx.drawImage(img, (canvas.width - img.width) / 2, accumulatedHeight);
+          accumulatedHeight += img.height;
 
-      if (index === imagesToDraw.length - 1) this.downloadCanvas(canvas);
-    };
-    img.src = image;
-  };
+          if (index === imagesToDraw.length - 1) this.downloadCanvas(canvas);
+        };
+        img.src = image;
+      };
 
-  imagesToDraw.forEach(drawImage);
-},
-
+      imagesToDraw.forEach(drawImage);
+    },
 
     downloadCanvas(canvas) {
       const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
@@ -176,6 +186,7 @@ export default {
 .inner-box {
   background-color: white;
   padding: 15px;
+  position: relative; /* Added */
 }
 
 .container {
@@ -256,5 +267,18 @@ export default {
 
 .download-button:hover {
   background-color: #218838;
+}
+
+.cube-image {
+  width: 50px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.cube-container {
+  position: absolute;
+  bottom: -30px;
+  right: -10px;
+  padding: 10px;
 }
 </style>
