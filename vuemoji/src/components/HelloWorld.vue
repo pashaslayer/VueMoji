@@ -186,7 +186,8 @@ export default {
 .inner-box {
   background-color: white;
   padding: 15px;
-  position: relative; /* Added */
+  padding-bottom: 5px; /* Reduzierter unterer Abstand */
+  position: relative;
 }
 
 .container {
@@ -225,7 +226,7 @@ export default {
 }
 
 .design-image {
-  max-width: 200px;
+  max-width: 300px;
   height: auto;
   margin: 0 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -249,10 +250,7 @@ export default {
   padding: 0;
 }
 
-.duplicated-images img {
-  max-width: 100%;
-  height: auto;
-}
+
 
 .download-button {
   background-color: #28a745;
@@ -263,6 +261,8 @@ export default {
   cursor: pointer;
   margin: 20px 20px 10px 20px;
   transition: background-color 0.3s;
+  margin-bottom: -10px;
+  
 }
 
 .download-button:hover {
@@ -277,8 +277,8 @@ export default {
 
 .cube-container {
   position: absolute;
-  bottom: -30px;
-  right: -10px;
+  bottom: -35px;
+  right: -20px;
   padding: 10px;
 }
 </style>
